@@ -31,12 +31,12 @@ public class ResourceController {
 
     @RequestMapping(method=RequestMethod.GET, value="/resources/{id}")
     public Resource show(@PathVariable String id) {
-        return resourceRepository.findOne(id);
+        return resourceRepository.findById(id).get();
     }
 
     @RequestMapping(method=RequestMethod.PUT, value="/resources/{id}")
     public Resource update(@PathVariable String id, @RequestBody Resource resource) {
-        Resource res = resourceRepository.findOne(id);
+        Resource res = resourceRepository.findById(id).get();
         
         if(resource.getResName()!= null)
             res.setResName(resource.getResName());
@@ -49,7 +49,7 @@ public class ResourceController {
 
     @RequestMapping(method=RequestMethod.DELETE, value="/resources/{id}")
     public String delete(@PathVariable String id) {
-        Resource resource = resourceRepository.findOne(id);
+        Resource resource = resourceRepository.findById(id).get();
         resourceRepository.delete(resource);
 
         return "resource deleted";
