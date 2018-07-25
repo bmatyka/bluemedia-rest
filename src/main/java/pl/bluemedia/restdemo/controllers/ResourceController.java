@@ -3,6 +3,7 @@ package pl.bluemedia.restdemo.controllers;
 
 import pl.bluemedia.restdemo.models.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,15 @@ public class ResourceController {
     
     @Autowired
     ResourceRepository resourceRepository;
+    
+    @Value("${s3Location}")
+    private String s3Location;
+
+    @Value("${s3Bucket}")
+    private String s3Bucket;
+    
+    @Value("${s3Region}")
+    private String s3Region;
     
     @RequestMapping(method=RequestMethod.GET, value="/resources")
     public Iterable<Resource> resource() {
