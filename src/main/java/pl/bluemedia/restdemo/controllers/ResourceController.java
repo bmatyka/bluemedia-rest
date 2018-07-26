@@ -40,23 +40,25 @@ public class ResourceController {
     AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.valueOf(s3Region)).build();
 
     @RequestMapping(method = RequestMethod.GET, value = "/resources")
-    public Iterable<Resource> resource() {
+    public Iterable<Resource> resource(String fileName, String par) {
 
         return resourceRepository.findAll();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/resources")
-    public String save(@RequestBody InputStream uploadedInputStream, ContentType contentType, String fileName) {
+    public String save(@RequestBody InputStream uploadedInputStream, String fileName) {
 
         try {
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentType("APPLICATION/OCTET-STREAM");
             s3client.putObject("bluemedia-rest", fileName, uploadedInputStream, objectMetadata);
         } catch (SdkClientException ex) {
-            throw new AWSs3ConflictException(ex.getMessage());
+            throw new SdkClientException(ex.getMessage());
         }
 
-        resourceRepository.save(resource(fileName, s3Location + s3Bucket + "/" + fileName));
+        Resource resource = new Resource(fileName, s3Location + s3Bucket + "/" + fileName);
+        
+        resourceRepository.save(resource);
         return resource.getId();
     }
 
