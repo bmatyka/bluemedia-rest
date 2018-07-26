@@ -3,11 +3,8 @@ package pl.bluemedia.restdemo.controllers;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.cloudsearchdomain.model.ContentType;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import java.io.InputStream;
 import pl.bluemedia.restdemo.models.Resource;
@@ -37,10 +34,10 @@ public class ResourceController {
     @Value("${s3Region}")
     private String s3Region;
 
-    AWSCredentials credentials = new BasicAWSCredentials("AKIAIUC7SFYAJMCRJSMA",
-            "w49lR4hiBsvMYMn8UGRJne8c2Wf4/Qy9UwpwPAOo");
-
-//    AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.valueOf(s3Region)).build();
+    
+//    TODO - to be delivered in final, working version; for demo purpose
+    AWSCredentials credentials = new BasicAWSCredentials("xxx", "xxx");
+    
     AmazonS3 s3client = new AmazonS3Client(credentials);
     
     @RequestMapping(method = RequestMethod.GET, value = "/resources")
@@ -50,13 +47,14 @@ public class ResourceController {
     }
     
     
-
+//  TODO
     @RequestMapping(method = RequestMethod.POST, value = "/resources")
     public String save(@RequestBody InputStream uploadedInputStream, String fileName) {
 
         try {
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentType("APPLICATION/OCTET-STREAM");
+            objectMetadata.setContentEncoding("UTF-8");
             s3client.putObject("bluemedia-rest", fileName, uploadedInputStream, objectMetadata);
         } catch (SdkClientException ex) {
             throw new SdkClientException(ex.getMessage());
@@ -70,12 +68,13 @@ public class ResourceController {
     
     
     
-
+//  TODO
     @RequestMapping(method = RequestMethod.GET, value = "/resources/{id}")
     public Resource show(@PathVariable String id) {
         return resourceRepository.findById(id).get();
     }
 
+//  TODO
     @RequestMapping(method = RequestMethod.PUT, value = "/resources/{id}")
     public Resource update(@PathVariable String id, @RequestBody Resource resource) {
         Resource res = resourceRepository.findById(id).get();
@@ -91,6 +90,7 @@ public class ResourceController {
         return res;
     }
 
+//  TODO
     @RequestMapping(method = RequestMethod.DELETE, value = "/resources/{id}")
     public String delete(@PathVariable String id) {
         Resource resource = resourceRepository.findById(id).get();

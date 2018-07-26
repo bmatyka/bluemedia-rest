@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Resource {
     
     @Id
-    String id;
-    String resName;
-    String resPath;
+    private String id;
+    private String resName;
+    private String resPath;
     
     public Resource() {
     }
@@ -44,5 +44,7 @@ public class Resource {
     public void setResPath(String resPath) {
         this.resPath = resPath;
     }
+    
+//    TODO equals() and hashcode()
     
 }
