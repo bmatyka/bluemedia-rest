@@ -48,12 +48,15 @@ public class ResourceController {
     @RequestMapping(method = RequestMethod.POST, value = "/resources")
     public String save(@RequestBody InputStream uploadedInputStream, ContentType contentType, String fileName) {
 
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(contentType.toString());
+        try {
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType("APPLICATION/OCTET-STREAM");
+            s3client.putObject("bluemedia-rest", fileName, uploadedInputStream, objectMetadata);
+        } catch (SdkClientException ex) {
+            throw new AWSs3ConflictException(ex.getMessage());
+        }
 
-        s3client.putObject("bluemedia-rest", fileName, uploadedInputStream, objectMetadata);
-
-        resourceRepository.save(resource);
+        resourceRepository.save(resource(fileName, s3Location + s3Bucket + "/" + fileName));
         return resource.getId();
     }
 
