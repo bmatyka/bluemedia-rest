@@ -1,6 +1,8 @@
 package pl.bluemedia.restdemo.controllers;
 
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
 import pl.bluemedia.restdemo.models.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +28,9 @@ public class ResourceController {
     
     @Value("${s3Region}")
     private String s3Region;
+    
+    AWSCredentials credentials = new BasicAWSCredentials("AKIAIUC7SFYAJMCRJSMA",
+                                    "w49lR4hiBsvMYMn8UGRJne8c2Wf4/Qy9UwpwPAOo");
     
     @RequestMapping(method=RequestMethod.GET, value="/resources")
     public Iterable<Resource> resource() {

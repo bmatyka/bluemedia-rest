@@ -47,13 +47,7 @@
             <artifactId>aws-java-sdk</artifactId>
             <version>1.11.372</version>
         </dependency>
-        
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver</artifactId>
-            <version>3.4.2</version>
-        </dependency>
-        
+    
     </dependencies>
 
     <build>
