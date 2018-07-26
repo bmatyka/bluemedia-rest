@@ -12,6 +12,7 @@ import java.io.InputStream;
 import pl.bluemedia.restdemo.models.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bluemedia.restdemo.repository.ResourceRepository;
 
+@Service
 @RestController
 public class ResourceController {
 
@@ -44,6 +46,8 @@ public class ResourceController {
 
         return resourceRepository.findAll();
     }
+    
+    
 
     @RequestMapping(method = RequestMethod.POST, value = "/resources")
     public String save(@RequestBody InputStream uploadedInputStream, String fileName) {
@@ -61,6 +65,9 @@ public class ResourceController {
         resourceRepository.save(resource);
         return resource.getId();
     }
+    
+    
+    
 
     @RequestMapping(method = RequestMethod.GET, value = "/resources/{id}")
     public Resource show(@PathVariable String id) {
