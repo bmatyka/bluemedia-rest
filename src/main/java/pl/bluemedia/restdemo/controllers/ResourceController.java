@@ -3,6 +3,10 @@ package pl.bluemedia.restdemo.controllers;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import pl.bluemedia.restdemo.models.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,15 +36,20 @@ public class ResourceController {
     AWSCredentials credentials = new BasicAWSCredentials("AKIAIUC7SFYAJMCRJSMA",
                                     "w49lR4hiBsvMYMn8UGRJne8c2Wf4/Qy9UwpwPAOo");
     
+//    AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.valueOf(s3Region)).build();
+    AmazonS3 s3client = new AmazonS3Client(credentials);
+    
     @RequestMapping(method=RequestMethod.GET, value="/resources")
     public Iterable<Resource> resource() {
+        
         return resourceRepository.findAll();
     }
 
     @RequestMapping(method=RequestMethod.POST, value="/resources")
     public String save(@RequestBody Resource resource) {
+//        s3client.putObject();
         resourceRepository.save(resource);
-
+        
         return resource.getId();
     }
 
