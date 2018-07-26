@@ -6,6 +6,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cloudsearchdomain.model.ContentType;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import java.io.InputStream;
@@ -39,8 +40,9 @@ public class ResourceController {
     AWSCredentials credentials = new BasicAWSCredentials("AKIAIUC7SFYAJMCRJSMA",
             "w49lR4hiBsvMYMn8UGRJne8c2Wf4/Qy9UwpwPAOo");
 
-    AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.valueOf(s3Region)).build();
-
+//    AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.valueOf(s3Region)).build();
+    AmazonS3 s3client = new AmazonS3Client(credentials);
+    
     @RequestMapping(method = RequestMethod.GET, value = "/resources")
     public Iterable<Resource> resource(String fileName, String par) {
 
